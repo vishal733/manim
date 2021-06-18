@@ -36,7 +36,9 @@ class NumberLine(Line):
             "num_decimal_places": 0,
             "font_size": 36,
         },
-        "numbers_to_exclude": None
+        "numbers_to_exclude": None,
+        "xtra_pad_start": 0,
+        "xtra_pad_end": 0
     }
 
     def __init__(self, x_range=None, **kwargs):
@@ -62,7 +64,11 @@ class NumberLine(Line):
         self.center()
 
         if self.include_tip:
-            self.add_tip()
+            kwargs_filtered = {}
+            if 'color' in kwargs:
+                kwargs_filtered['fill_color'] = kwargs['color']
+            # self.add_tip(at_start=True)
+            self.add_tip(**kwargs_filtered)
             self.tip.set_stroke(
                 self.stroke_color,
                 self.stroke_width,
@@ -71,6 +77,13 @@ class NumberLine(Line):
             self.add_ticks()
         if self.include_numbers:
             self.add_numbers(excluding=self.numbers_to_exclude)
+
+        if self.xtra_pad_start:
+            extra_border_start = self.add_extra_border_start(self.xtra_pad_start, self.get_tick_range())
+            self.add(extra_border_start)
+        if self.xtra_pad_start:
+            extra_border_end = self.add_extra_border_end(self.xtra_pad_end, self.get_tick_range())
+            self.add(extra_border_end)
 
     def get_tick_range(self):
         if self.include_tip:
@@ -95,6 +108,20 @@ class NumberLine(Line):
         result = Line(size * DOWN, size * UP)
         result.rotate(self.get_angle())
         result.move_to(self.number_to_point(x))
+        result.match_style(self)
+        return result
+
+    def add_extra_border_start(self, pad_size, tick_range):
+        result = Line(pad_size * DOWN, pad_size * UP)
+        result.rotate(self.get_angle()+PI/2)
+        result.move_to(self.number_to_point(tick_range[0]))
+        result.match_style(self)
+        return result
+
+    def add_extra_border_end(self, pad_size, tick_range):
+        result = Line(pad_size * DOWN, pad_size * UP)
+        result.rotate(self.get_angle()-PI/2)
+        result.move_to(self.number_to_point(tick_range[-1]))
         result.match_style(self)
         return result
 

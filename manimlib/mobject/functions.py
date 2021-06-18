@@ -38,8 +38,25 @@ class ParametricCurve(VMobject):
         for t1, t2 in zip(boundary_times[0::2], boundary_times[1::2]):
             t_range = [*np.arange(t1, t2, step), t2]
             points = np.array([self.t_func(t) for t in t_range])
-            self.start_new_path(points[0])
-            self.add_points_as_corners(points[1:])
+            if np.any(np.isnan(points)):
+                new_set_pts = []
+                # Subdivide the range into more sections
+                curr_pts = []
+                for i, (pt, t) in enumerate(zip(points, t_range)):
+                    if np.isnan(pt[1]):
+                        if len(curr_pts) > 0:
+                            new_set_pts.append(np.array(curr_pts))
+                        curr_pts = []
+                    else:
+                        curr_pts.append(pt)
+                if len(curr_pts) > 0:
+                    new_set_pts.append(np.array(curr_pts))
+                for set_pts in new_set_pts:
+                    self.start_new_path(set_pts[0])
+                    self.add_points_as_corners(set_pts[1:])
+            else:
+                self.start_new_path(points[0])
+                self.add_points_as_corners(points[1:])
         if self.use_smoothing:
             self.make_approximately_smooth()
         return self

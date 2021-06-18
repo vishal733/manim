@@ -440,12 +440,12 @@ class Camera(object):
         light_pos = np.dot(rotation, light_pos)
 
         self.perspective_uniforms = {
-            "frame_shape": frame.get_shape(),
-            "anti_alias_width": anti_alias_width,
-            "camera_center": tuple(frame.get_center()),
-            "camera_rotation": tuple(np.array(rotation).T.flatten()),
-            "light_source_position": tuple(light_pos),
-            "focal_distance": frame.get_focal_distance(),
+            "frame_shape": frame.get_shape(),                   # (14.222222222222221, 8.0)
+            "anti_alias_width": anti_alias_width,               # 0.016901408450704224
+            "camera_center": tuple(frame.get_center()),         # array([0., 0., 0.])
+            "camera_rotation": tuple(np.array(rotation).T.flatten()),       # 3x3 unit matrix
+            "light_source_position": tuple(light_pos),                      # array([-10.,  10.,  10.])
+            "focal_distance": frame.get_focal_distance(),                   # 16.0
         }
 
     def init_textures(self):
