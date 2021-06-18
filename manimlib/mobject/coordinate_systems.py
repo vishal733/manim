@@ -209,6 +209,14 @@ class CoordinateSystem():
     def slope_of_tangent(self, x, graph, **kwargs):
         return np.tan(self.angle_of_tangent(x, graph, **kwargs))
 
+    def get_derivative_graph(self, graph, dx=0.01, **kwargs):
+        # if "color" not in kwargs:
+        #     kwargs["color"] = self.default_derivative_color
+        def deriv(x):
+            return self.slope_of_tangent(x, graph, dx=dx)
+
+        return self.get_graph(deriv, **kwargs)
+
     def get_tangent_line(self, x, graph, length=5, line_func=Line):
         line = line_func(LEFT, RIGHT)
         line.set_width(length)
@@ -225,7 +233,8 @@ class CoordinateSystem():
                                stroke_color=BLACK,
                                fill_opacity=1,
                                colors=(BLUE, GREEN),
-                               show_signed_area=True):
+                               show_signed_area=True,
+                               custom=False):
         if x_range is None:
             x_range = self.x_range[:2]
         if dx is None:
@@ -244,9 +253,10 @@ class CoordinateSystem():
                 sample = 0.5 * x0 + 0.5 * x1
             else:
                 raise Exception("Invalid input sample type")
-            height = get_norm(
-                self.i2gp(sample, graph) - self.c2p(sample, 0)
-            )
+            tmp_val = self.i2gp(sample, graph) - self.c2p(sample, 0)
+            height = get_norm(tmp_val)
+            if custom:
+                height = height * np.sign(tmp_val[1])
             rect = Rectangle(width=x1 - x0, height=height)
             rect.move_to(self.c2p(x0, 0), DL)
             rects.append(rect)
@@ -380,6 +390,18 @@ class ThreeDAxes(Axes):
 
     def get_all_ranges(self):
         return [self.x_range, self.y_range, self.z_range]
+
+    def add_coordinate_labels(self,
+                              x_values=None,
+                              y_values=None,
+                              z_values=None,
+                              **kwargs):
+        axes = self.get_axes()
+        self.coordinate_labels = VGroup()
+        for axis, values in zip(axes, [x_values, y_values, z_values]):
+            labels = axis.add_numbers(values, **kwargs)
+            self.coordinate_labels.add(labels)
+        return self.coordinate_labels
 
 
 class NumberPlane(Axes):

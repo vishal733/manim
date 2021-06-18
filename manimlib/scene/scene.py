@@ -109,6 +109,26 @@ class Scene(object):
         if self.quit_interaction:
             self.unlock_mobject_data()
 
+    def embed_resumable(self):
+        if not self.preview:
+            return
+        self.stop_skipping()
+        # self.linger_after_completion = False
+        self.update_frame()
+
+        from IPython.terminal.embed import InteractiveShellEmbed
+        shell = InteractiveShellEmbed()
+        func_post_run_cell = lambda *a, **kw: self.update_frame()
+        shell.events.register('post_run_cell', func_post_run_cell)
+        # Use the locals of the caller as the local namespace
+        # once embeded, and add a few custom shortcuts
+        local_ns = inspect.currentframe().f_back.f_locals
+        local_ns["touch"] = self.interact
+        for term in ("play", "wait", "add", "remove", "clear", "save_state", "restore"):
+            local_ns[term] = getattr(self, term)
+        shell(local_ns=local_ns, stack_depth=2)
+        shell.events.unregister('post_run_cell', func_post_run_cell)
+
     def embed(self):
         if not self.preview:
             # If the scene is just being
@@ -596,6 +616,9 @@ class Scene(object):
 
         if char == "r":
             self.camera.frame.to_default_state()
+        elif char == 'p':
+            print("Pausing..")
+            self.wait(10)
         elif char == "q":
             self.quit_interaction = True
 
