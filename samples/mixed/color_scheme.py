@@ -1,0 +1,42 @@
+# Simple module to store Solarized color schemes
+BASE03 = "#002b36"
+BASE02 = "#073642"
+BASE01 = "#586e75"
+BASE00 = "#657b83"
+BASE0 = "#839496"
+BASE1 = "#93a1a1"
+BASE2 = "#eee8d5"
+BASE3 = "#fdf6e3"
+YELLOW = "#b58900"
+ORANGE = "#cb4b16"
+RED = "#dc322f"
+MAGENTA = "#d33682"
+VIOLET = "#6c71c4"
+BLUE = "#268bd2"
+CYAN = "#2aa198"
+GREEN = "#859900"
+
+
+class SolarizedDark():
+	BG = BASE03
+	BG_HIGHLIGHT = BASE02
+	PRIMARY = BASE0
+	SECONDARY = BASE01
+	EMPHASIZED = BASE1
+	# In both Dark and Light
+	YELLOW = YELLOW
+	ORANGE = ORANGE
+	RED = RED
+	MAGENTA = MAGENTA
+	VIOLET = VIOLET
+	BLUE = BLUE
+	CYAN = CYAN
+	GREEN = GREEN
+
+
+class SolarizedLight(SolarizedDark):
+	BG = BASE3
+	BG_HIGHLIGHT = BASE2
+	PRIMARY = BASE00
+	SECONDARY = BASE1
+	EMPHASIZED = BASE01
