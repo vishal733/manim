@@ -106,7 +106,7 @@ def get_scene_classes_from_module(module):
 
 def main(config):
     module = config["module"]
-    scene_config = get_scene_config(config)
+    scene_config = get_scene_config(config)     # scene_config.keys() = dict_keys(['window_config', 'camera_config', 'file_writer_config', 'skip_animations', 'start_at_animation_number', 'end_at_animation_number', 'leave_progress_bars', 'preview'])
     if module is None:
         # If no module was passed in, just play the blank scene
         return [BlankScene(**scene_config)]
