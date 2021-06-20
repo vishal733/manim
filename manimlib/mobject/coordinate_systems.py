@@ -255,10 +255,13 @@ class CoordinateSystem():
                 raise Exception("Invalid input sample type")
             tmp_val = self.i2gp(sample, graph) - self.c2p(sample, 0)
             height = get_norm(tmp_val)
-            if custom:
-                height = height * np.sign(tmp_val[1])
-            rect = Rectangle(width=x1 - x0, height=height)
-            rect.move_to(self.c2p(x0, 0), DL)
+            sign = np.sign(tmp_val[1])
+            left, right = self.c2p(x0, 0)[0], self.c2p(x1, 0)[0]
+            rect = Rectangle(width=right - left, height=height)
+            if sign > 0:
+                rect.move_to(self.c2p(x0, 0), DL)
+            else:
+                rect.move_to(self.c2p(x0, graph.underlying_function(x0)), DL)
             rects.append(rect)
         result = VGroup(*rects)
         result.set_submobject_colors_by_gradient(*colors)

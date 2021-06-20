@@ -9,6 +9,7 @@ EXTRA_PARAMS = None
 
 l_current = [
     ["samples/playground.py", "Playground"],
+    ["samples/mixed/copy1.py", "Copy1"],
 ]
 
 
@@ -88,7 +89,9 @@ def get_warptron_samples():
 def get_publish_videos():
     l_samples = [
         ["knol/hog/hog.py", "Hog2"],
-        ["knol/activation_functions/activation_functions.py", "ActivationFunctions"]
+        ["knol/activation_functions/activation_functions.py", "ActivationFunctions"],
+        ["knol/activation_functions/neural_networks.py", "MyNeuralNetwork"],
+        ["knol/relu_understanding/relu_understanding.py", "ReLUUnderstanding"],
     ]
     return l_samples
 
@@ -172,6 +175,7 @@ l_animation_samples = get_animation_tutorial()
 
 DETAILS = get_dt_tutorial()[-1]
 DETAILS = l_publish[-1]
+# DETAILS = l_animation_samples[3]
 
 
 def run():
