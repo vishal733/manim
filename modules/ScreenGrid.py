@@ -51,6 +51,7 @@ class ScreenGrid(VGroup):
         "axis_color": RED,
         "axis_stroke": 2,
         "show_points": False,
+        "show_numbers": True,
         "point_radius": 0,
         "labels_scale": 0.5,
         "labels_buff": 0,
@@ -103,7 +104,11 @@ class ScreenGrid(VGroup):
                     puntos.add(punto)
                     leyendas.add(leyenda)
 
-        self.add(grilla, ejes, leyendas)
+        if self.show_numbers:
+            self.add(grilla, ejes, leyendas)
+        else:
+            self.add(grilla, ejes)
+
         if self.show_points == True:
             self.add(puntos)
 

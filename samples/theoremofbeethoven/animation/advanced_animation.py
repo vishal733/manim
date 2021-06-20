@@ -58,9 +58,9 @@ class AddUpdater3(Scene):
         def update_text(obj):
             obj.next_to(dot, RIGHT, buff=MED_SMALL_BUFF)
 
-        text.add_updater(lambda m: m.next_to(dot, RIGHT, buff=SMALL_BUFF))
+        # text.add_updater(lambda m: m.next_to(dot, RIGHT, buff=SMALL_BUFF))
         self.play(ApplyMethod(dot.shift, UP * 2), UpdateFromFunc(text, update_text))
-        # self.play(dot.animate.shift(UP * 2), UpdateFromFunc(text, update_text))
+        self.play(dot.animate.shift(LEFT * 2))
         self.wait()
 
 
@@ -389,6 +389,4 @@ class MoveAlongPathWithAngle(Scene):
         self.add(triangle, path)
         self.play(UpdateFromAlphaFunc(triangle, update_rotate_move), run_time=4)
         self.wait(3)
-
-
 

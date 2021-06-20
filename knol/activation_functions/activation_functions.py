@@ -96,12 +96,12 @@ class ActivationFunctions(Scene):
         alpha = 0.1
         common_params = {"use_smoothing": False}
         l_details = [
-            ['step', Heading("Step"),
-                Tex(r"""f(x) = \begin{cases}1 & x \geq 0\\0 & x < 0\end{cases}"""),
-                lambda x: 1 if x > 0 else 0, {"discontinuities": [0]}, None
-            ],
-            ['linear', Heading("Linear"), Tex(r"f(x)=x"),
-                lambda x: x, {}, None
+            # ['step', Heading("Step"),
+            #     Tex(r"""f(x) = \begin{cases}1 & x \geq 0\\0 & x < 0\end{cases}"""),
+            #     lambda x: 1 if x > 0 else 0, {"discontinuities": [0]}, None
+            # ],
+            ['linear', Heading("Linear"), Tex(r"f(x)=x/2"),
+                lambda x: x/2, {}, None
             ],
             [
                 'sigmoid', Heading("Sigmoid"),
@@ -157,7 +157,8 @@ f(x) = \begin{cases}x & x \geq 0\\0 & x < 0\end{cases}
             if not x_range: x_range = [-5, 6]
             params.update(common_params)
             color = next(L_COLORS)
-            graph = axes.get_graph(y_ceil_wrapper(func), color=color, stroke_width=2.0, x_range=x_range, **params)
+            # graph = axes.get_graph(y_ceil_wrapper(func), color=color, stroke_width=2.0, x_range=x_range, **params)
+            graph = axes.get_graph(func, color=color, stroke_width=2.0, x_range=x_range, **params)
             derivative_func = functools.partial(axes.slope_of_tangent, graph=graph)
             deriv = axes.get_graph(derivative_func, color=LIGHT_BROWN, stroke_width=2.0, x_range=x_range, **params)
             label = display_name.to_edge(UL).shift(RIGHT)
