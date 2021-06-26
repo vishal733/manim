@@ -102,6 +102,9 @@ class NumberLine(Line):
         self.add(ticks)
         self.ticks = ticks
 
+    def remove_ticks(self):
+        self.remove(self.ticks)
+
     def get_tick(self, x, size=None):
         if size is None:
             size = self.tick_size

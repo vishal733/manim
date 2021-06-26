@@ -72,7 +72,7 @@ class Mobject(object):
         self.init_uniforms()
         self.init_updaters()
         self.init_event_listners()
-        self.init_points()
+        self.init_points()      # To be implemented by the one sub-classing
         self.init_colors()
         self.init_shader_data()
 

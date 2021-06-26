@@ -164,6 +164,8 @@ class Scene(object):
         self.get_image().show()
 
     def update_frame(self, dt=0, ignore_skipping=False):
+        if self.new_frame_notifier:
+            self.new_frame_notifier()
         self.increment_time(dt)
         self.update_mobjects(dt)
         if self.skip_animations and not ignore_skipping:
@@ -180,6 +182,9 @@ class Scene(object):
             rt = time.time() - self.real_animation_start_time
             if rt < vt:
                 self.update_frame(0)
+
+    def new_frame_notifier(self):
+        pass
 
     def emit_frame(self):
         if not self.skip_animations:

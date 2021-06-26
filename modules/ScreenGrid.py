@@ -18,6 +18,7 @@ class Grid(VMobject):
     CONFIG = {
         "height": 6.0,
         "width": 6.0,
+        "opacity": 1.0
     }
 
     def __init__(self, rows, columns, **kwargs):
@@ -32,12 +33,12 @@ class Grid(VMobject):
             self.add(Line(
                 [x - self.width / 2., -self.height / 2., 0],
                 [x - self.width / 2., self.height / 2., 0],
-            ).set_stroke(width=0.5))
+            ).set_stroke(width=0.5, opacity=self.opacity))
         for y in np.arange(0, self.height + y_step, y_step):
             self.add(Line(
                 [-self.width / 2., y - self.height / 2., 0],
                 [self.width / 2., y - self.height / 2., 0]
-            ).set_stroke(width=0.5))
+            ).set_stroke(width=0.5, opacity=self.opacity))
 
 
 class ScreenGrid(VGroup):
@@ -48,6 +49,7 @@ class ScreenGrid(VGroup):
         "width": 14,
         "grid_stroke": 0.5,
         "grid_color": WHITE,
+        "grid_opacity": 1,
         "axis_color": RED,
         "axis_stroke": 2,
         "show_points": False,
@@ -62,8 +64,8 @@ class ScreenGrid(VGroup):
         VGroup.__init__(self, **kwargs)
         rows = self.rows
         columns = self.columns
-        grilla = Grid(width=self.width, height=self.height, rows=rows, columns=columns).set_stroke(self.grid_color,
-                                                                                                   self.grid_stroke)
+        grilla = Grid(width=self.width, height=self.height, rows=rows, columns=columns, opacity=self.grid_opacity)\
+            .set_stroke(self.grid_color, self.grid_stroke)
 
         grilla.generate_points()
         vector_ii = ORIGIN + np.array((-self.width / 2, -self.height / 2, 0))
@@ -136,10 +138,3 @@ class CoordScreen(Scene):
         self.wait(2)
         obj.shift(RIGHT)
         obj.shift(RIGHT)
-
-
-if __name__ == '__main__':
-    # sys.argv.append('/home/vishal/.virtualenvs/mnm38/bin/manimgl')
-    sys.argv.append('/home/vishal/git/manim/lib/ScreenGrid.py')
-    sys.argv.append(DISPLAY_CLASS)
-    main()

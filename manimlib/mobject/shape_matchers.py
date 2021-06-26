@@ -64,13 +64,14 @@ class BackgroundRectangle(SurroundingRectangle):
 class Cross(VGroup):
     CONFIG = {
         "stroke_color": RED,
-        "stroke_width": [0, 6, 0],
+        "stroke_width": [0, 1, 0],
     }
 
     def __init__(self, mobject, **kwargs):
         super().__init__(
             Line(UL, DR),
             Line(UR, DL),
+            **kwargs
         )
         self.insert_n_curves(2)
         self.replace(mobject, stretch=True)

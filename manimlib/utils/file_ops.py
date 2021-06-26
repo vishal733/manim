@@ -41,6 +41,7 @@ def find_file(file_name, directories=None, extensions=None):
         for directory in directories
         for extension in extensions
     )
+    # print("possible_paths: {}".format(list(possible_paths)))
     for path in possible_paths:
         if os.path.exists(path):
             return path

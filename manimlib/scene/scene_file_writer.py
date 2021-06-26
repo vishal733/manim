@@ -57,8 +57,15 @@ class SceneFileWriter(object):
             self.image_file_path = os.path.join(image_dir, image_file)
         if self.write_to_movie:
             movie_dir = guarantee_existence(os.path.join(out_dir, "videos"))
+            if True:
+                movie_dir = guarantee_existence(os.path.join(out_dir, "videos", self.get_resolution_directory()))
+            custom_filename = False
+            if scene_name != self.scene.__class__.__name__:
+                custom_filename = True
             movie_file = add_extension_if_not_present(scene_name, self.movie_file_extension)
             self.movie_file_path = os.path.join(movie_dir, movie_file)
+            if custom_filename and os.path.isfile(self.movie_file_path):
+                raise Exception("Aborting. Output file already exists: {}".format(self.movie_file_path))
             if self.break_into_partial_movies:
                 self.partial_movie_directory = guarantee_existence(os.path.join(
                     movie_dir, "partial_movie_files", scene_name,
